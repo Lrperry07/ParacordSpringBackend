@@ -91,6 +91,22 @@ public class UserController {
 		 return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
 	 }
 
+	 @RequestMapping(value ="/signup",
+			 produces = MediaType.APPLICATION_JSON_VALUE,
+			 consumes = MediaType.APPLICATION_JSON_VALUE,
+			 method = RequestMethod.POST)
+
+	 @ResponseBody
+	 public ResponseEntity<Optional<User>> signup(@RequestBody User user) {
+		 Optional<User> dbRecord = userRepository.findById(user.getEmail());
+
+		 if(dbRecord.isPresent() && dbRecord.get().getPassword().equals(user.getPassword()) ) 
+		 {
+			 return new ResponseEntity<>(dbRecord, HttpStatus.OK);
+		 }
+		 return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
+	 }
+	 
 	 //user Controller - find all
 	 @RequestMapping(value ="/findAll",
 			 produces = MediaType.APPLICATION_JSON_VALUE,
